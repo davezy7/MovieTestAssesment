@@ -10,6 +10,7 @@ import dagger.hilt.android.scopes.ViewModelScoped
 import id.bts.movietestassesment.data.retrofit.RetrofitClient
 import id.bts.movietestassesment.data.service.DiscoverByGenreService
 import id.bts.movietestassesment.data.service.GenreService
+import id.bts.movietestassesment.data.service.MovieDetailsService
 import retrofit2.create
 
 @Module
@@ -26,5 +27,11 @@ object ApiModule {
     @ViewModelScoped
     fun provideDiscoverByGenreService(@ApplicationContext context: Context): DiscoverByGenreService{
         return RetrofitClient(context).create(DiscoverByGenreService::class.java)
+    }
+
+    @Provides
+    @ViewModelScoped
+    fun provideMovieDetailsService(@ApplicationContext context: Context): MovieDetailsService{
+        return RetrofitClient(context).create(MovieDetailsService::class.java)
     }
 }

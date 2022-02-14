@@ -7,10 +7,13 @@ import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.android.scopes.ViewModelScoped
 import id.bts.movietestassesment.data.service.DiscoverByGenreService
 import id.bts.movietestassesment.data.service.GenreService
+import id.bts.movietestassesment.data.service.MovieDetailsService
 import id.bts.movietestassesment.domain.repository.discoverbygenre.DiscoverByGenreRepository
 import id.bts.movietestassesment.domain.repository.discoverbygenre.DiscoverByGenreRepositoryImpl
 import id.bts.movietestassesment.domain.repository.genre.GenreRepository
 import id.bts.movietestassesment.domain.repository.genre.GenreRepositoryImpl
+import id.bts.movietestassesment.domain.repository.moviedetails.MovieDetailsRepository
+import id.bts.movietestassesment.domain.repository.moviedetails.MovieDetailsRepositoryImpl
 
 @Module
 @InstallIn(ViewModelComponent::class)
@@ -24,7 +27,19 @@ object RepositoryModule {
 
     @Provides
     @ViewModelScoped
-    fun provideDiscoverByGenreRepository(service: DiscoverByGenreService, apiKey: String): DiscoverByGenreRepository{
+    fun provideDiscoverByGenreRepository(
+        service: DiscoverByGenreService,
+        apiKey: String
+    ): DiscoverByGenreRepository {
         return DiscoverByGenreRepositoryImpl(service, apiKey)
+    }
+
+    @Provides
+    @ViewModelScoped
+    fun provideMovieDetailsRepository(
+        service: MovieDetailsService,
+        apiKey: String
+    ): MovieDetailsRepository {
+        return MovieDetailsRepositoryImpl(service, apiKey)
     }
 }

@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">MovieTestAssesment</string>
+    <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur tristique ante sed lacus tincidunt, at consequat erat pharetra. Morbi feugiat sapien nec neque feugiat vestibulum. Aliquam erat volutpat. In sollicitudin sem sed interdum eleifend. Nulla luctus vitae mauris sed mattis. Pellentesque augue ante, eleifend eu lectus id, placerat suscipit nulla. Donec vehicula sit amet lorem vitae eleifend.</string>
 </resources>

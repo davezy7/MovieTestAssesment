@@ -2,6 +2,7 @@ package id.bts.movietestassesment.ui.splash
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.net.ConnectivityManager
 import android.view.LayoutInflater
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -30,6 +31,14 @@ class SplashActivity : BaseActivity<ActivitySplashBinding, SplashViewModel>() {
 
     override fun onStart() {
         super.onStart()
+        if(!hasInternetConnection()){
+            showToast("Internet Connection Required!")
+            lifecycleScope.launch {
+                delay(3000)
+                finish()
+            }
+            return
+        }
         lifecycleScope.launch {
             delay(1000)
             moveToMain()
@@ -39,5 +48,10 @@ class SplashActivity : BaseActivity<ActivitySplashBinding, SplashViewModel>() {
     private fun moveToMain(){
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
+    }
+
+    private fun hasInternetConnection(): Boolean{
+        val cm = getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
+        return cm.activeNetwork != null
     }
 }

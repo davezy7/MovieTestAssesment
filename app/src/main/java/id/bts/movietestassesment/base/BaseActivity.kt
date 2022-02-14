@@ -1,5 +1,6 @@
 package id.bts.movietestassesment.base
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
@@ -16,6 +17,7 @@ import androidx.viewbinding.ViewBinding
 import id.bts.movietestassesment.R
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
 
 abstract class BaseActivity<VB: ViewBinding, VM: ViewModel> : AppCompatActivity(){
 
@@ -48,10 +50,8 @@ abstract class BaseActivity<VB: ViewBinding, VM: ViewModel> : AppCompatActivity(
     protected abstract fun setupView()
 
     protected fun showToast(message: String){
-        val toast = Toast(this)
-        toast.setGravity(Gravity.CENTER,0,0)
-        toast.setText(message)
-        toast.duration = Toast.LENGTH_SHORT
+        val toast = Toast.makeText(this, message, Toast.LENGTH_SHORT)
+        toast.setGravity(Gravity.BOTTOM,0,50)
         toast.show()
     }
 
@@ -72,17 +72,11 @@ abstract class BaseActivity<VB: ViewBinding, VM: ViewModel> : AppCompatActivity(
         }
     }
 
-    protected fun moveToActivity(activity: Activity, delay: Boolean = true){
-        val intent = Intent(this, activity::class.java)
-        if(delay){
-            lifecycleScope.launch {
-                while (true){
-                    delay(1000)
-                    startActivity(intent)
-                }
-            }
-        } else{
-            startActivity(intent)
-        }
+    @SuppressLint("SimpleDateFormat")
+    protected fun formatDate(dateStr: String) : String{
+        var sdf = SimpleDateFormat("yyyy-MM-dd")
+        val releaseDate = sdf.parse(dateStr)
+        sdf = SimpleDateFormat("dd MMM yyyy")
+        return sdf.format(releaseDate!!)
     }
 }
