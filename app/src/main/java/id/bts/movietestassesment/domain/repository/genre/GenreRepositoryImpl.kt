@@ -12,9 +12,7 @@ class GenreRepositoryImpl  @Inject constructor(
 
 
     override suspend fun getAllMovieGenres(): Response<GenreListResponse> {
-        val genreList = service.getAllMovieGenres(apiKey)
-        Log.d("REPO", "FETCH : ${genreList.body()?.genre}")
-        return genreList
+        return service.getAllMovieGenres(apiKey)
     }
 
 }

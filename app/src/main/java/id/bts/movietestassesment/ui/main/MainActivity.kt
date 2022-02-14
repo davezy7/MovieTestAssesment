@@ -24,14 +24,14 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
     }
 
     override fun setupView() {
-        showLoadingDialog()
         setupRecyclerView()
     }
 
     override fun onStart() {
         super.onStart()
+        showLoadingDialog()
         getAllMovieGenres()
-        hideLoadingDialog()
+
     }
 
     private fun setupRecyclerView(){
@@ -47,12 +47,15 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
         viewModel.getAllMovieGenres()
         viewModel.genreResponse.observe(this) { response ->
             if (response.isSuccessful && response.body() != null) {
-                //response.body()!!.genre.let { genreListAdapter.setData(it) }
-                Log.d(TAG, "Success Fetch Data: ${response.body()!!.genre}")
+                response.body()!!.genres.let { genreListAdapter.setData(it) }
+
+                Log.d(TAG, "Success Fetch Data: ${response.body()!!.genres}")
             } else {
                 showToast("Failed Fetch Data: ${response.errorBody()!!.string()}")
+
                 Log.d(TAG, "Failed Fetch Data: ${response.errorBody()!!.string()}")
             }
+            hideLoadingDialog()
         }
     }
 

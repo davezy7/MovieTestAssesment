@@ -4,9 +4,11 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/ANDROID/MovieTestAssesment/app/src/main/res/drawable/ic_navigate_next.xml" value="0.189" />
+        <entry key="..\:/ANDROID/MovieTestAssesment/app/src/main/res/layout/activity_discover_by_genre.xml" value="0.36666666666666664" />
         <entry key="..\:/ANDROID/MovieTestAssesment/app/src/main/res/layout/activity_main.xml" value="0.36666666666666664" />
         <entry key="..\:/ANDROID/MovieTestAssesment/app/src/main/res/layout/activity_splash.xml" value="0.5" />
         <entry key="..\:/ANDROID/MovieTestAssesment/app/src/main/res/layout/item_list_genres.xml" value="0.3625" />
+        <entry key="..\:/ANDROID/MovieTestAssesment/app/src/main/res/layout/item_list_movies.xml" value="0.36666666666666664" />
         <entry key="..\:/ANDROID/MovieTestAssesment/app/src/main/res/layout/layout_loading.xml" value="0.19814814814814816" />
       </map>
     </option>
