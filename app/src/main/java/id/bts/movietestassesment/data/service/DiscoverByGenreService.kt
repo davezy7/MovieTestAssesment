@@ -11,6 +11,7 @@ interface DiscoverByGenreService {
     @GET("discover/movie")
     suspend fun getAllMoviesByGenre(
         @Query("with_genres") genres: Int,
+        @Query("page") page: Int,
         @Query("api_key") apiKey: String
     ) : Response<DiscoverByGenreResponse>
 }

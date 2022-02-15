@@ -11,5 +11,5 @@ interface MovieDetailsRepository {
 
     suspend fun getMovieVideos(movieId: Long): Response<MovieVideosResponse>
 
-    suspend fun getMovieReviews(movieId: Long): Response<MovieReviewResponse>
+    suspend fun getMovieReviews(movieId: Long, page: Int): Response<MovieReviewResponse>
 }

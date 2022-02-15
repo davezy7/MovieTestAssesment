@@ -10,8 +10,8 @@ class DiscoverByGenreRepositoryImpl @Inject constructor(
     private val apiKey : String
 ): DiscoverByGenreRepository{
 
-    override suspend fun getAllMoviesByGenre(genre: Int): Response<DiscoverByGenreResponse> {
-        return service.getAllMoviesByGenre(genre, apiKey)
+    override suspend fun getAllMoviesByGenre(genre: Int, page: Int): Response<DiscoverByGenreResponse> {
+        return service.getAllMoviesByGenre(genre, page, apiKey)
     }
 
 }

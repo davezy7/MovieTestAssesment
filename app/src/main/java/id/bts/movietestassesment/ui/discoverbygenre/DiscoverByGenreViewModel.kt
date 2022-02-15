@@ -1,5 +1,6 @@
 package id.bts.movietestassesment.ui.discoverbygenre
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,9 +18,9 @@ class DiscoverByGenreViewModel @Inject constructor(
 
     val movieResponse: MutableLiveData<Response<DiscoverByGenreResponse>> = MutableLiveData()
 
-    fun getAllMoviesByGenre(genre: Int){
+    fun getAllMoviesByGenre(genre: Int, page: Int){
         viewModelScope.launch {
-            val response = repos.getAllMoviesByGenre(genre)
+            val response = repos.getAllMoviesByGenre(genre, page)
             movieResponse.value = response
         }
     }

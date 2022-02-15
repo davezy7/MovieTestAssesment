@@ -35,9 +35,9 @@ class MovieDetailsViewModel @Inject constructor(
         }
     }
 
-    fun getMovieReviews(movieId: Long){
+    fun getMovieReviews(movieId: Long, page: Int){
         viewModelScope.launch {
-            val response = repos.getMovieReviews(movieId)
+            val response = repos.getMovieReviews(movieId, page)
             movieReviewResponse.value = response
         }
     }

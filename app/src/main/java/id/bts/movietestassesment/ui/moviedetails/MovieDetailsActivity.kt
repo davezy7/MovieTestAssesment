@@ -5,6 +5,7 @@ import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import dagger.hilt.android.AndroidEntryPoint
 import id.bts.movietestassesment.base.BaseActivity
@@ -19,6 +20,10 @@ class MovieDetailsActivity : BaseActivity<ActivityMovieDetailsBinding, MovieDeta
 
     private val TAG = MovieDetailsActivity::class.java.simpleName
     private var movieId: Long = 0
+    private var page: Int = 1
+    private var isLastItem: Boolean = false
+    private var isLoadingNewData: Boolean = false
+
     private lateinit var videoAdapter: MovieDetailVideoListAdapter
     private lateinit var reviewAdapter: MovieReviewListAdapter
 
@@ -46,6 +51,12 @@ class MovieDetailsActivity : BaseActivity<ActivityMovieDetailsBinding, MovieDeta
         setupReviewRecyclerView()
     }
 
+    private fun getMovieData(){
+        getMovieDetails()
+        getMovieVideos()
+        getMovieReviews()
+    }
+
     private fun setupVideoRecyclerView(){
         videoAdapter = MovieDetailVideoListAdapter(arrayListOf())
         binding.rvMovieVideos.apply{
@@ -61,13 +72,18 @@ class MovieDetailsActivity : BaseActivity<ActivityMovieDetailsBinding, MovieDeta
             layoutManager = LinearLayoutManager(applicationContext, LinearLayoutManager.VERTICAL, false)
             adapter = reviewAdapter
             setHasFixedSize(true)
+            addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    super.onScrolled(recyclerView, dx, dy)
+                    if (!recyclerView.canScrollVertically(1) && !isLastItem && !isLoadingNewData) {
+                        isLoadingNewData = true
+                        page++
+                        getMovieReviews()
+                        isLoadingNewData = false
+                    }
+                }
+            })
         }
-    }
-
-    private fun getMovieData(){
-        getMovieDetails()
-        getMovieVideos()
-        getMovieReviews()
     }
 
     private fun getMovieDetails() {
@@ -107,7 +123,9 @@ class MovieDetailsActivity : BaseActivity<ActivityMovieDetailsBinding, MovieDeta
     }
 
     private fun getMovieReviews(){
-        viewModel.getMovieReviews(movieId)
+        if(isLastItem) return
+
+        viewModel.getMovieReviews(movieId, page)
         viewModel.movieReviewResponse.observe(this){ response ->
             if(response.isSuccessful && response.body() != null){
                 if(response.body()!!.results.count() > 0){
@@ -115,8 +133,8 @@ class MovieDetailsActivity : BaseActivity<ActivityMovieDetailsBinding, MovieDeta
                     binding.tvEmptyReview.visibility = View.GONE
                 }
                 response.body()!!.results.let { reviewAdapter.setData(it) }
+                isLastItem = page == response.body()!!.totalPages
             }
         }
     }
-
 }

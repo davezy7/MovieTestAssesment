@@ -20,7 +20,7 @@ class MovieDetailsRepositoryImpl @Inject constructor(
         return service.getMovieVideos(movieId, apiKey)
     }
 
-    override suspend fun getMovieReviews(movieId: Long): Response<MovieReviewResponse> {
-        return service.getMovieReviews(movieId, apiKey)
+    override suspend fun getMovieReviews(movieId: Long, page: Int): Response<MovieReviewResponse> {
+        return service.getMovieReviews(movieId, page, apiKey)
     }
 }

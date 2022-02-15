@@ -13,10 +13,9 @@ import id.bts.movietestassesment.ui.moviedetails.MovieDetailsActivity
 import id.bts.movietestassesment.utils.Constants
 import java.text.SimpleDateFormat
 
-class DiscoverByGenreListAdapter(
-    private val movieList: ArrayList<DiscoverByGenreResultResponse>
-) : RecyclerView.Adapter<DiscoverByGenreListAdapter.DiscoverByGenreListAdapterVH>() {
+class DiscoverByGenreListAdapter : RecyclerView.Adapter<DiscoverByGenreListAdapter.DiscoverByGenreListAdapterVH>() {
 
+    private val movieList: ArrayList<DiscoverByGenreResultResponse> = arrayListOf()
 
     class DiscoverByGenreListAdapterVH(val bind: ItemListMoviesBinding) :
         RecyclerView.ViewHolder(bind.root)
@@ -52,8 +51,15 @@ class DiscoverByGenreListAdapter(
         return movieList.size
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun setData(data: List<DiscoverByGenreResultResponse>){
         movieList.clear()
+        movieList.addAll(data)
+        notifyDataSetChanged()
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun addData(data: List<DiscoverByGenreResultResponse>){
         movieList.addAll(data)
         notifyDataSetChanged()
     }

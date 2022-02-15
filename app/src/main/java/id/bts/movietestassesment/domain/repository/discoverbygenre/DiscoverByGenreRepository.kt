@@ -5,5 +5,5 @@ import retrofit2.Response
 
 interface DiscoverByGenreRepository {
 
-    suspend fun getAllMoviesByGenre(genre: Int): Response<DiscoverByGenreResponse>
+    suspend fun getAllMoviesByGenre(genre: Int, page: Int): Response<DiscoverByGenreResponse>
 }
