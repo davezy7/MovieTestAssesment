@@ -1,5 +1,6 @@
 package id.bts.movietestassesment.ui.moviedetails
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,7 +20,6 @@ class MovieDetailsViewModel @Inject constructor(
 
     val movieDetailResponse: MutableLiveData<Response<MovieDetailsResponse>> = MutableLiveData()
     val movieVideoResponse: MutableLiveData<Response<MovieVideosResponse>> = MutableLiveData()
-    val movieReviewResponse: MutableLiveData<Response<MovieReviewResponse>> = MutableLiveData()
 
     fun getMovieDetails(movieId: Long) {
         viewModelScope.launch {
@@ -28,17 +28,19 @@ class MovieDetailsViewModel @Inject constructor(
         }
     }
 
-    fun getMovieVideos(movieId: Long){
+    fun getMovieVideos(movieId: Long) {
         viewModelScope.launch {
             val response = repos.getMovieVideos(movieId)
             movieVideoResponse.value = response
         }
     }
 
-    fun getMovieReviews(movieId: Long, page: Int){
+    fun getMovieReviews(movieId: Long, page: Int): LiveData<Response<MovieReviewResponse>> {
+        val movieReviewResponse: MutableLiveData<Response<MovieReviewResponse>> = MutableLiveData()
         viewModelScope.launch {
             val response = repos.getMovieReviews(movieId, page)
             movieReviewResponse.value = response
         }
+        return movieReviewResponse
     }
 }

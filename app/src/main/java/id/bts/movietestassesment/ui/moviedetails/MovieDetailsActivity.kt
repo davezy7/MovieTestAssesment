@@ -3,7 +3,6 @@ package id.bts.movietestassesment.ui.moviedetails
 import android.view.LayoutInflater
 import android.view.View
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
@@ -13,16 +12,15 @@ import id.bts.movietestassesment.databinding.ActivityMovieDetailsBinding
 import id.bts.movietestassesment.ui.adapters.MovieDetailVideoListAdapter
 import id.bts.movietestassesment.ui.adapters.MovieReviewListAdapter
 import id.bts.movietestassesment.utils.Constants
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MovieDetailsActivity : BaseActivity<ActivityMovieDetailsBinding, MovieDetailsViewModel>() {
 
     private val TAG = MovieDetailsActivity::class.java.simpleName
+
     private var movieId: Long = 0
     private var page: Int = 1
     private var isLastItem: Boolean = false
-    private var isLoadingNewData: Boolean = false
 
     private lateinit var videoAdapter: MovieDetailVideoListAdapter
     private lateinit var reviewAdapter: MovieReviewListAdapter
@@ -46,40 +44,40 @@ class MovieDetailsActivity : BaseActivity<ActivityMovieDetailsBinding, MovieDeta
         getMovieData()
     }
 
-    private fun setupRecyclerView(){
+    private fun setupRecyclerView() {
         setupVideoRecyclerView()
         setupReviewRecyclerView()
     }
 
-    private fun getMovieData(){
+    private fun getMovieData() {
         getMovieDetails()
         getMovieVideos()
         getMovieReviews()
     }
 
-    private fun setupVideoRecyclerView(){
+    private fun setupVideoRecyclerView() {
         videoAdapter = MovieDetailVideoListAdapter(arrayListOf())
-        binding.rvMovieVideos.apply{
-            layoutManager = LinearLayoutManager(applicationContext, LinearLayoutManager.HORIZONTAL, false)
+        binding.rvMovieVideos.apply {
+            layoutManager =
+                LinearLayoutManager(applicationContext, LinearLayoutManager.HORIZONTAL, false)
             adapter = videoAdapter
             setHasFixedSize(true)
         }
     }
 
-    private fun setupReviewRecyclerView(){
+    private fun setupReviewRecyclerView() {
         reviewAdapter = MovieReviewListAdapter(arrayListOf())
         binding.rvMovieReviews.apply {
-            layoutManager = LinearLayoutManager(applicationContext, LinearLayoutManager.VERTICAL, false)
+            layoutManager =
+                LinearLayoutManager(applicationContext, LinearLayoutManager.VERTICAL, false)
             adapter = reviewAdapter
             setHasFixedSize(true)
             addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                     super.onScrolled(recyclerView, dx, dy)
-                    if (!recyclerView.canScrollVertically(1) && !isLastItem && !isLoadingNewData) {
-                        isLoadingNewData = true
+                    if (!recyclerView.canScrollVertically(1) && !isLastItem) {
                         page++
                         getMovieReviews()
-                        isLoadingNewData = false
                     }
                 }
             })
@@ -109,11 +107,11 @@ class MovieDetailsActivity : BaseActivity<ActivityMovieDetailsBinding, MovieDeta
         }
     }
 
-    private fun getMovieVideos(){
+    private fun getMovieVideos() {
         viewModel.getMovieVideos(movieId)
-        viewModel.movieVideoResponse.observe(this){ response ->
-            if(response.isSuccessful && response.body() != null){
-                if(response.body()!!.results.count() > 0){
+        viewModel.movieVideoResponse.observe(this) { response ->
+            if (response.isSuccessful && response.body() != null) {
+                if (response.body()!!.results.count() > 0) {
                     binding.rvMovieVideos.visibility = View.VISIBLE
                     binding.tvEmptyVideo.visibility = View.GONE
                 }
@@ -122,17 +120,20 @@ class MovieDetailsActivity : BaseActivity<ActivityMovieDetailsBinding, MovieDeta
         }
     }
 
-    private fun getMovieReviews(){
-        if(isLastItem) return
+    private fun getMovieReviews() {
+        if (isLastItem) return
 
-        viewModel.getMovieReviews(movieId, page)
-        viewModel.movieReviewResponse.observe(this){ response ->
-            if(response.isSuccessful && response.body() != null){
-                if(response.body()!!.results.count() > 0){
+        viewModel.getMovieReviews(movieId, page).observe(this) { response ->
+            if (response.isSuccessful && response.body() != null) {
+                if (response.body()!!.results.count() > 0) {
                     binding.rvMovieReviews.visibility = View.VISIBLE
                     binding.tvEmptyReview.visibility = View.GONE
                 }
-                response.body()!!.results.let { reviewAdapter.setData(it) }
+                if (page > 1) {
+                    response.body()!!.results.let { reviewAdapter.addData(it) }
+                } else {
+                    response.body()!!.results.let { reviewAdapter.setData(it) }
+                }
                 isLastItem = page == response.body()!!.totalPages
             }
         }

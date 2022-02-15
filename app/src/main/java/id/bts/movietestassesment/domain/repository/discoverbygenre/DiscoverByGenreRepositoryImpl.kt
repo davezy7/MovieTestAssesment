@@ -11,7 +11,7 @@ class DiscoverByGenreRepositoryImpl @Inject constructor(
 ): DiscoverByGenreRepository{
 
     override suspend fun getAllMoviesByGenre(genre: Int, page: Int): Response<DiscoverByGenreResponse> {
-        return service.getAllMoviesByGenre(genre, page, apiKey)
+        return service.getAllMoviesByGenre(genres = genre, page = page, apiKey)
     }
 
 }

@@ -13,9 +13,10 @@ import id.bts.movietestassesment.utils.Constants
 
 class MovieReviewListAdapter(
     private val reviewList: ArrayList<MovieReviewResultResponse>
-): RecyclerView.Adapter<MovieReviewListAdapter.MovieReviewListAdapterVH>() {
+) : RecyclerView.Adapter<MovieReviewListAdapter.MovieReviewListAdapterVH>() {
 
-    class MovieReviewListAdapterVH(val bind: ItemListReviewsBinding): RecyclerView.ViewHolder(bind.root)
+    class MovieReviewListAdapterVH(val bind: ItemListReviewsBinding) :
+        RecyclerView.ViewHolder(bind.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieReviewListAdapterVH {
         val v = ItemListReviewsBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -27,23 +28,25 @@ class MovieReviewListAdapter(
         val review = reviewList[position]
 
         // Load Image
-        if(review.authorDetails.avatarPath != null){
+        if (review.authorDetails.avatarPath != null) {
             val userAvatarUrl: String =
-                if(review.authorDetails.avatarPath.contains("gravatar")) review.authorDetails.avatarPath.substring(1) // If avatar is from Gravatar's site
+                if (review.authorDetails.avatarPath.contains("gravatar")) review.authorDetails.avatarPath.substring(
+                    1
+                ) // If avatar is from Gravatar's site
                 else "${Constants.BASE_URL_POSTER}${review.authorDetails.avatarPath}" // if avatar is from TMDB's site
 
             holder.bind.ivUserAvatar.load(userAvatarUrl) {
                 transformations(CircleCropTransformation())
             }
-        } else{
+        } else {
             holder.bind.ivUserAvatar.load(R.drawable.ic_avatar_placeholder)
         }
 
         // Get User Rating
         val userRatingText = "Rating:"
-        if(review.authorDetails.rating != null){
+        if (review.authorDetails.rating != null) {
             holder.bind.tvUserRating.text = "$userRatingText ${review.authorDetails.rating}"
-        } else{
+        } else {
             holder.bind.tvUserRating.text = "$userRatingText -"
         }
 
@@ -56,8 +59,14 @@ class MovieReviewListAdapter(
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setData(data: List<MovieReviewResultResponse>){
+    fun setData(data: List<MovieReviewResultResponse>) {
         reviewList.clear()
+        reviewList.addAll(data)
+        notifyDataSetChanged()
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun addData(data: List<MovieReviewResultResponse>) {
         reviewList.addAll(data)
         notifyDataSetChanged()
     }
