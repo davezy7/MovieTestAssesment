@@ -6,29 +6,27 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingHorizontal="16dp"
-    android:paddingTop="16dp"
-    tools:context=".ui.discoverbygenre.DiscoverByGenreActivity"
+    android:padding="10dp"
+    tools:context=".ui.genrelist.GenreListFragment"
     tools:ignore="HardcodedText">
 
     <TextView
-        android:id="@+id/tv_genre_name"
         style="@style/TitleText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
+        android:text="Select a movie genre"
         android:textColor="@color/yellow"
-        android:textSize="24sp"
-        tools:text="Genres" />
+        android:textSize="24sp" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_list_movie"
+        android:id="@+id/rv_list_genre"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:orientation="vertical"
         android:paddingHorizontal="8dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/item_list_movies" />
+        tools:listitem="@layout/item_list_genres" />
 
 </LinearLayout>

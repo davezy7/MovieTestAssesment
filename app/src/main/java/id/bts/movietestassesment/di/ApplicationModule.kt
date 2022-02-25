@@ -18,8 +18,4 @@ object ApplicationModule {
     fun provideContext(application: Application) : Context{
         return application
     }
-
-    @Provides
-    @Singleton
-    fun provideApiKey(): String { return API_KEY }
 }

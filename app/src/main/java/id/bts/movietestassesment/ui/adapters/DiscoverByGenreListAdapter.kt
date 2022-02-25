@@ -5,10 +5,12 @@ import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import id.bts.movietestassesment.data.dto.DiscoverByGenreResultResponse
 import id.bts.movietestassesment.databinding.ItemListMoviesBinding
+import id.bts.movietestassesment.ui.discoverbygenre.DiscoverByGenreFragmentDirections
 import id.bts.movietestassesment.ui.moviedetails.MovieDetailsActivity
 import id.bts.movietestassesment.utils.Constants
 import java.text.SimpleDateFormat
@@ -39,9 +41,9 @@ class DiscoverByGenreListAdapter : RecyclerView.Adapter<DiscoverByGenreListAdapt
         holder.bind.ivMoviePoster.load(posterUrl)
 
         holder.bind.cvMovieResult.setOnClickListener { v ->
-            val intent = Intent(v?.context, MovieDetailsActivity::class.java)
-            intent.putExtra("MOVIE_ID", movie.id)
-            v?.context?.startActivity(intent)
+            val action = DiscoverByGenreFragmentDirections
+                .actionDiscoverByGenreFragmentToMovieDetailsFragment(movie.id)
+            v.findNavController().navigate(action)
             notifyItemChanged(position)
         }
 
@@ -69,6 +71,6 @@ class DiscoverByGenreListAdapter : RecyclerView.Adapter<DiscoverByGenreListAdapt
         var sdf = SimpleDateFormat("yyyy-MM-dd")
         val releaseDate = sdf.parse(dateStr)
         sdf = SimpleDateFormat("dd MMM yyyy")
-        return sdf.format(releaseDate!!)
+        return sdf.format(releaseDate)
     }
 }

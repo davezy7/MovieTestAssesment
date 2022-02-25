@@ -6,12 +6,11 @@ import retrofit2.Response
 import javax.inject.Inject
 
 class DiscoverByGenreRepositoryImpl @Inject constructor(
-    private val service: DiscoverByGenreService,
-    private val apiKey : String
-): DiscoverByGenreRepository{
+    private val service: DiscoverByGenreService
+    ): DiscoverByGenreRepository{
 
     override suspend fun getAllMoviesByGenre(genre: Int, page: Int): Response<DiscoverByGenreResponse> {
-        return service.getAllMoviesByGenre(genres = genre, page = page, apiKey)
+        return service.getAllMoviesByGenre(genres = genre, page = page)
     }
 
 }

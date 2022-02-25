@@ -18,28 +18,35 @@ class MovieDetailsViewModel @Inject constructor(
     private val repos: MovieDetailsRepository
 ) : BaseViewModel() {
 
-    val movieDetailResponse: MutableLiveData<Response<MovieDetailsResponse>> = MutableLiveData()
-    val movieVideoResponse: MutableLiveData<Response<MovieVideosResponse>> = MutableLiveData()
-
-    fun getMovieDetails(movieId: Long) {
+    fun getMovieDetails(movieId: Long): LiveData<MovieDetailsResponse>{
+        val movieDetailResponse: MutableLiveData<MovieDetailsResponse> = MutableLiveData()
         viewModelScope.launch {
             val response = repos.getMovieDetails(movieId)
-            movieDetailResponse.value = response
+            if(response.isSuccessful && response.body() != null){
+                movieDetailResponse.value = response.body()
+            }
         }
+        return movieDetailResponse
     }
 
-    fun getMovieVideos(movieId: Long) {
+    fun getMovieVideos(movieId: Long): LiveData<MovieVideosResponse> {
+        val movieVideoResponse: MutableLiveData<MovieVideosResponse> = MutableLiveData()
         viewModelScope.launch {
             val response = repos.getMovieVideos(movieId)
-            movieVideoResponse.value = response
+            if(response.isSuccessful && response.body() != null){
+                movieVideoResponse.value = response.body()
+            }
         }
+        return movieVideoResponse
     }
 
-    fun getMovieReviews(movieId: Long, page: Int): LiveData<Response<MovieReviewResponse>> {
-        val movieReviewResponse: MutableLiveData<Response<MovieReviewResponse>> = MutableLiveData()
+    fun getMovieReviews(movieId: Long, page: Int): LiveData<MovieReviewResponse> {
+        val movieReviewResponse: MutableLiveData<MovieReviewResponse> = MutableLiveData()
         viewModelScope.launch {
             val response = repos.getMovieReviews(movieId, page)
-            movieReviewResponse.value = response
+            if(response.isSuccessful && response.body() != null){
+                movieReviewResponse.value = response.body()
+            }
         }
         return movieReviewResponse
     }

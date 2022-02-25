@@ -16,11 +16,13 @@ class DiscoverByGenreViewModel @Inject constructor(
     private val repos: DiscoverByGenreRepository
 ) : BaseViewModel() {
 
-    fun getAllMoviesByGenre(genre: Int, page: Int): LiveData<Response<DiscoverByGenreResponse>> {
-        val movieResponse: MutableLiveData<Response<DiscoverByGenreResponse>> = MutableLiveData()
+    fun getAllMoviesByGenre(genre: Int, page: Int): LiveData<DiscoverByGenreResponse> {
+        val movieResponse: MutableLiveData<DiscoverByGenreResponse> = MutableLiveData()
         viewModelScope.launch {
             val response = repos.getAllMoviesByGenre(genre, page)
-            movieResponse.value = response
+            if(response.isSuccessful && response.body() != null){
+                movieResponse.value = response.body()
+            }
         }
         return movieResponse
     }

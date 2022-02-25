@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/genreListFragment">
+
+    <fragment
+        android:id="@+id/genreListFragment"
+        android:name="id.bts.movietestassesment.ui.genrelist.GenreListFragment"
+        android:label="fragment_genre_list"
+        tools:layout="@layout/fragment_genre_list">
+        <action
+            android:id="@+id/action_genreListFragment_to_discoverByGenreFragment"
+            app:destination="@id/discoverByGenreFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popExitAnim="@android:anim/fade_out" />
+    </fragment>
+    <fragment
+        android:id="@+id/discoverByGenreFragment"
+        android:name="id.bts.movietestassesment.ui.discoverbygenre.DiscoverByGenreFragment"
+        android:label="DiscoverByGenreFragment"
+        tools:layout="@layout/fragment_discover_by_genre">
+        <action
+            android:id="@+id/action_discoverByGenreFragment_to_movieDetailsFragment"
+            app:destination="@id/movieDetailsFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popExitAnim="@android:anim/fade_out" />
+        <argument
+            android:name="genre_id"
+            android:defaultValue="0"
+            app:argType="integer" />
+        <argument
+            android:name="genre_name"
+            android:defaultValue="none"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/movieDetailsFragment"
+        android:name="id.bts.movietestassesment.ui.moviedetails.MovieDetailsFragment"
+        android:label="fragment_movie_details"
+        app:popExitAnim="@android:anim/fade_out"
+        tools:layout="@layout/fragment_movie_details">
+        <argument
+            android:name="movie_id"
+            android:defaultValue="0L"
+            app:argType="long" />
+    </fragment>
+</navigation>

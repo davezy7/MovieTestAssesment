@@ -19,19 +19,19 @@ object ApiModule {
 
     @Provides
     @ViewModelScoped
-    fun provideGenreService(@ApplicationContext context: Context): GenreService{
-        return RetrofitClient(context).create(GenreService::class.java)
+    fun provideGenreService(): GenreService{
+        return RetrofitClient().create(GenreService::class.java)
     }
 
     @Provides
     @ViewModelScoped
-    fun provideDiscoverByGenreService(@ApplicationContext context: Context): DiscoverByGenreService{
-        return RetrofitClient(context).create(DiscoverByGenreService::class.java)
+    fun provideDiscoverByGenreService(): DiscoverByGenreService{
+        return RetrofitClient().create(DiscoverByGenreService::class.java)
     }
 
     @Provides
     @ViewModelScoped
-    fun provideMovieDetailsService(@ApplicationContext context: Context): MovieDetailsService{
-        return RetrofitClient(context).create(MovieDetailsService::class.java)
+    fun provideMovieDetailsService(): MovieDetailsService{
+        return RetrofitClient().create(MovieDetailsService::class.java)
     }
 }

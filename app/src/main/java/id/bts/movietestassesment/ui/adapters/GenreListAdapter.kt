@@ -4,11 +4,16 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import id.bts.movietestassesment.R
 import id.bts.movietestassesment.data.dto.GenreResponse
 import id.bts.movietestassesment.databinding.ItemListGenresBinding
 import id.bts.movietestassesment.ui.discoverbygenre.DiscoverByGenreActivity
+import id.bts.movietestassesment.ui.genrelist.GenreListFragmentDirections
 
 class GenreListAdapter(
     private val genreList: ArrayList<GenreResponse>
@@ -29,10 +34,9 @@ class GenreListAdapter(
         holder.bind.tvGenreName.text = genre.name
 
         holder.bind.cvGenreList.setOnClickListener { v ->
-            val intent = Intent(v?.context, DiscoverByGenreActivity::class.java)
-            intent.putExtra("GENRE_ID", genre.id)
-            intent.putExtra("GENRE_NAME", genre.name)
-            v?.context?.startActivity(intent)
+            val action = GenreListFragmentDirections
+                .actionGenreListFragmentToDiscoverByGenreFragment(genreId = genre.id, genreName = genre.name)
+            v.findNavController().navigate(action)
             notifyItemChanged(position)
         }
     }
@@ -47,5 +51,6 @@ class GenreListAdapter(
         genreList.addAll(data)
         notifyDataSetChanged()
     }
+
 
 }

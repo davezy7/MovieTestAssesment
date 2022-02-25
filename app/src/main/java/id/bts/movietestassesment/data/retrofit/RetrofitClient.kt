@@ -1,7 +1,6 @@
 package id.bts.movietestassesment.data.retrofit
 
-import android.content.Context
-import dagger.hilt.android.qualifiers.ApplicationContext
+import id.bts.movietestassesment.utils.Constants.API_KEY
 import id.bts.movietestassesment.utils.Constants.BASE_URL
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -9,11 +8,8 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
-import javax.inject.Inject
 
-class RetrofitClient @Inject constructor(
-    @ApplicationContext context: Context
-) {
+class RetrofitClient {
 
     private var retrofit: Retrofit? = null
     private val baseUrl: String get() = BASE_URL
@@ -37,6 +33,7 @@ class RetrofitClient @Inject constructor(
             val original = chain.request()
             val modified = original.newBuilder()
             modified.addHeader("Content-Type", "application/json")
+            modified.addHeader("Authorization", " Bearer $API_KEY")
             modified.method(original.method, original.body)
             val request: Request = modified.build()
             return@addInterceptor chain.proceed(request)

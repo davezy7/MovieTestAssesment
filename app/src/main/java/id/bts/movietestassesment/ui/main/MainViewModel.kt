@@ -1,5 +1,6 @@
 package id.bts.movietestassesment.ui.main
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,13 +16,15 @@ class MainViewModel @Inject constructor(
     private val repos: GenreRepository
 ) : BaseViewModel() {
 
-    val genreResponse: MutableLiveData<Response<GenreListResponse>> = MutableLiveData()
-
-    fun getAllMovieGenres() {
+    fun getAllMovieGenres(): LiveData<GenreListResponse> {
+        val genreResponse: MutableLiveData<GenreListResponse> = MutableLiveData()
         viewModelScope.launch {
             val response = repos.getAllMovieGenres()
-            genreResponse.value = response
+            if(response.isSuccessful && response.body() != null){
+                genreResponse.value = response.body()
+            }
         }
+        return genreResponse
     }
 
 }

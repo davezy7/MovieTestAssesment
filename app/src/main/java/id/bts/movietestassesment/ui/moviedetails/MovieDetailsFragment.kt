@@ -1,22 +1,24 @@
 package id.bts.movietestassesment.ui.moviedetails
 
+import android.os.Bundle
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import dagger.hilt.android.AndroidEntryPoint
-import id.bts.movietestassesment.base.BaseActivity
-import id.bts.movietestassesment.databinding.ActivityMovieDetailsBinding
+import id.bts.movietestassesment.R
+import id.bts.movietestassesment.base.BaseFragment
+import id.bts.movietestassesment.databinding.FragmentMovieDetailsBinding
 import id.bts.movietestassesment.ui.adapters.MovieDetailVideoListAdapter
 import id.bts.movietestassesment.ui.adapters.MovieReviewListAdapter
 import id.bts.movietestassesment.utils.Constants
 
 @AndroidEntryPoint
-class MovieDetailsActivity : BaseActivity<ActivityMovieDetailsBinding, MovieDetailsViewModel>() {
-
-    private val TAG = MovieDetailsActivity::class.java.simpleName
+class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding, MovieDetailsViewModel>() {
 
     private var movieId: Long = 0
     private var page: Int = 1
@@ -25,8 +27,8 @@ class MovieDetailsActivity : BaseActivity<ActivityMovieDetailsBinding, MovieDeta
     private lateinit var videoAdapter: MovieDetailVideoListAdapter
     private lateinit var reviewAdapter: MovieReviewListAdapter
 
-    override fun setLayout(inflater: LayoutInflater): ActivityMovieDetailsBinding {
-        return ActivityMovieDetailsBinding.inflate(inflater)
+    override fun setLayout(inflater: LayoutInflater): FragmentMovieDetailsBinding {
+        return FragmentMovieDetailsBinding.inflate(inflater)
     }
 
     override fun setViewModel(): MovieDetailsViewModel {
@@ -34,13 +36,10 @@ class MovieDetailsActivity : BaseActivity<ActivityMovieDetailsBinding, MovieDeta
     }
 
     override fun setupView() {
-        movieId = intent.getLongExtra("MOVIE_ID", 0)
+        arguments?.let {
+            movieId = it.getLong("movie_id")
+        }
         setupRecyclerView()
-    }
-
-    override fun onStart() {
-        super.onStart()
-        showLoadingDialog()
         getMovieData()
     }
 
@@ -58,8 +57,7 @@ class MovieDetailsActivity : BaseActivity<ActivityMovieDetailsBinding, MovieDeta
     private fun setupVideoRecyclerView() {
         videoAdapter = MovieDetailVideoListAdapter(arrayListOf())
         binding.rvMovieVideos.apply {
-            layoutManager =
-                LinearLayoutManager(applicationContext, LinearLayoutManager.HORIZONTAL, false)
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             adapter = videoAdapter
             setHasFixedSize(true)
         }
@@ -68,8 +66,7 @@ class MovieDetailsActivity : BaseActivity<ActivityMovieDetailsBinding, MovieDeta
     private fun setupReviewRecyclerView() {
         reviewAdapter = MovieReviewListAdapter(arrayListOf())
         binding.rvMovieReviews.apply {
-            layoutManager =
-                LinearLayoutManager(applicationContext, LinearLayoutManager.VERTICAL, false)
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             adapter = reviewAdapter
             setHasFixedSize(true)
             addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -99,7 +96,6 @@ class MovieDetailsActivity : BaseActivity<ActivityMovieDetailsBinding, MovieDeta
             binding.tvMovieReleaseDate.text = formatDate(data.releaseDate)
             binding.ivMovieBackdrop.load(backdropPath)
             binding.ivMoviePoster.load(posterPath)
-            hideLoadingDialog()
         }
     }
 
@@ -132,4 +128,5 @@ class MovieDetailsActivity : BaseActivity<ActivityMovieDetailsBinding, MovieDeta
             isLastItem = page == data.totalPages
         }
     }
+
 }

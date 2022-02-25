@@ -21,25 +21,19 @@ object RepositoryModule {
 
     @Provides
     @ViewModelScoped
-    fun provideGenreRepository(service: GenreService, apiKey: String): GenreRepository {
-        return GenreRepositoryImpl(service, apiKey)
+    fun provideGenreRepository(service: GenreService): GenreRepository {
+        return GenreRepositoryImpl(service)
     }
 
     @Provides
     @ViewModelScoped
-    fun provideDiscoverByGenreRepository(
-        service: DiscoverByGenreService,
-        apiKey: String
-    ): DiscoverByGenreRepository {
-        return DiscoverByGenreRepositoryImpl(service, apiKey)
+    fun provideDiscoverByGenreRepository(service: DiscoverByGenreService): DiscoverByGenreRepository {
+        return DiscoverByGenreRepositoryImpl(service)
     }
 
     @Provides
     @ViewModelScoped
-    fun provideMovieDetailsRepository(
-        service: MovieDetailsService,
-        apiKey: String
-    ): MovieDetailsRepository {
-        return MovieDetailsRepositoryImpl(service, apiKey)
+    fun provideMovieDetailsRepository(service: MovieDetailsService): MovieDetailsRepository {
+        return MovieDetailsRepositoryImpl(service)
     }
 }

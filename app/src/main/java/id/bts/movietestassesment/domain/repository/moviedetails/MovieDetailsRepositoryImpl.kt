@@ -8,19 +8,17 @@ import retrofit2.Response
 import javax.inject.Inject
 
 class MovieDetailsRepositoryImpl @Inject constructor(
-    private val service: MovieDetailsService,
-    private val apiKey: String
-) : MovieDetailsRepository {
+    private val service: MovieDetailsService) : MovieDetailsRepository {
 
     override suspend fun getMovieDetails(movieId: Long): Response<MovieDetailsResponse> {
-        return service.getMovieDetails(movieId, apiKey)
+        return service.getMovieDetails(movieId)
     }
 
     override suspend fun getMovieVideos(movieId: Long): Response<MovieVideosResponse> {
-        return service.getMovieVideos(movieId, apiKey)
+        return service.getMovieVideos(movieId)
     }
 
     override suspend fun getMovieReviews(movieId: Long, page: Int): Response<MovieReviewResponse> {
-        return service.getMovieReviews(movieId, page, apiKey)
+        return service.getMovieReviews(movieId, page)
     }
 }

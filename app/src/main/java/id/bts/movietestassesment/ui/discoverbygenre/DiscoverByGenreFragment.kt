@@ -1,21 +1,23 @@
 package id.bts.movietestassesment.ui.discoverbygenre
 
 import android.annotation.SuppressLint
-import android.util.Log
+import android.os.Bundle
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
-import id.bts.movietestassesment.base.BaseActivity
-import id.bts.movietestassesment.databinding.ActivityDiscoverByGenreBinding
+import id.bts.movietestassesment.R
+import id.bts.movietestassesment.base.BaseFragment
+import id.bts.movietestassesment.databinding.FragmentDiscoverByGenreBinding
 import id.bts.movietestassesment.ui.adapters.DiscoverByGenreListAdapter
 
 @AndroidEntryPoint
-class DiscoverByGenreActivity :
-    BaseActivity<ActivityDiscoverByGenreBinding, DiscoverByGenreViewModel>() {
+class DiscoverByGenreFragment : BaseFragment<FragmentDiscoverByGenreBinding, DiscoverByGenreViewModel>() {
 
-    private val TAG = DiscoverByGenreActivity::class.java.simpleName
 
     private lateinit var genreName: String
     private lateinit var discoverByGenreListAdapter: DiscoverByGenreListAdapter
@@ -24,8 +26,8 @@ class DiscoverByGenreActivity :
     private var page: Int = 1
     private var isLastItem: Boolean = false
 
-    override fun setLayout(inflater: LayoutInflater): ActivityDiscoverByGenreBinding {
-        return ActivityDiscoverByGenreBinding.inflate(inflater)
+    override fun setLayout(inflater: LayoutInflater): FragmentDiscoverByGenreBinding {
+        return FragmentDiscoverByGenreBinding.inflate(inflater)
     }
 
     override fun setViewModel(): DiscoverByGenreViewModel {
@@ -33,22 +35,18 @@ class DiscoverByGenreActivity :
     }
 
     override fun setupView() {
-        genreId = intent.getIntExtra("GENRE_ID", 0)
-        genreName = intent.getStringExtra("GENRE_NAME")!!
+        arguments?.let {
+            genreId = it.getInt("genre_id")
+            genreName = it.getString("genre_name").toString()
+        }
         setupRecyclerView()
-    }
-
-    override fun onStart() {
-        super.onStart()
-        showLoadingDialog()
         getAllMoviesByGenre()
     }
 
     private fun setupRecyclerView() {
         discoverByGenreListAdapter = DiscoverByGenreListAdapter()
         binding.rvListMovie.apply {
-            layoutManager =
-                LinearLayoutManager(applicationContext, LinearLayoutManager.VERTICAL, false)
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             adapter = discoverByGenreListAdapter
             setHasFixedSize(true)
             addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -75,7 +73,6 @@ class DiscoverByGenreActivity :
                 data.results.let { discoverByGenreListAdapter.setData(it) }
             }
             isLastItem = page == data.totalPages
-            hideLoadingDialog()
         }
     }
 }

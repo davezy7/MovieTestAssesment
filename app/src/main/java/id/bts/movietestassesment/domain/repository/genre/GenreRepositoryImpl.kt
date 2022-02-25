@@ -7,12 +7,11 @@ import retrofit2.Response
 import javax.inject.Inject
 
 class GenreRepositoryImpl  @Inject constructor(
-    private val service: GenreService,
-    private val apiKey: String): GenreRepository{
+    private val service: GenreService): GenreRepository{
 
 
     override suspend fun getAllMovieGenres(): Response<GenreListResponse> {
-        return service.getAllMovieGenres(apiKey)
+        return service.getAllMovieGenres()
     }
 
 }
