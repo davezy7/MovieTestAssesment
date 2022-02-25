@@ -1,19 +1,12 @@
 package id.bts.movietestassesment.ui.main
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import id.bts.movietestassesment.R
-import id.bts.movietestassesment.base.BaseActivity
 import id.bts.movietestassesment.databinding.ActivityMainBinding
-import id.bts.movietestassesment.ui.adapters.GenreListAdapter
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {

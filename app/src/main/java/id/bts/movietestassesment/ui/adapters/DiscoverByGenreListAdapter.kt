@@ -1,8 +1,6 @@
 package id.bts.movietestassesment.ui.adapters
 
 import android.annotation.SuppressLint
-import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.navigation.findNavController
@@ -11,7 +9,6 @@ import coil.load
 import id.bts.movietestassesment.data.dto.DiscoverByGenreResultResponse
 import id.bts.movietestassesment.databinding.ItemListMoviesBinding
 import id.bts.movietestassesment.ui.discoverbygenre.DiscoverByGenreFragmentDirections
-import id.bts.movietestassesment.ui.moviedetails.MovieDetailsActivity
 import id.bts.movietestassesment.utils.Constants
 import java.text.SimpleDateFormat
 

@@ -2,16 +2,14 @@ package id.bts.movietestassesment.ui.genrelist
 
 import android.view.LayoutInflater
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import id.bts.movietestassesment.base.BaseFragment
 import id.bts.movietestassesment.databinding.FragmentGenreListBinding
 import id.bts.movietestassesment.ui.adapters.GenreListAdapter
-import id.bts.movietestassesment.ui.main.MainViewModel
 
 @AndroidEntryPoint
-class GenreListFragment : BaseFragment<FragmentGenreListBinding, MainViewModel>(){
+class GenreListFragment : BaseFragment<FragmentGenreListBinding, GenreListViewModel>(){
 
     private lateinit var genreListAdapter: GenreListAdapter
 
@@ -19,8 +17,8 @@ class GenreListFragment : BaseFragment<FragmentGenreListBinding, MainViewModel>(
         return FragmentGenreListBinding.inflate(inflater)
     }
 
-    override fun setViewModel(): MainViewModel {
-        return ViewModelProvider(this)[MainViewModel::class.java]
+    override fun setViewModel(): GenreListViewModel {
+        return ViewModelProvider(this)[GenreListViewModel::class.java]
     }
 
     override fun setupView() {

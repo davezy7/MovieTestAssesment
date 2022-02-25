@@ -3,12 +3,14 @@ package id.bts.movietestassesment.ui.splash
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.ConnectivityManager
+import android.os.Bundle
+import android.view.Gravity
 import android.view.LayoutInflater
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
-import id.bts.movietestassesment.base.BaseActivity
 import id.bts.movietestassesment.databinding.ActivitySplashBinding
 import id.bts.movietestassesment.ui.main.MainActivity
 import kotlinx.coroutines.delay
@@ -16,23 +18,20 @@ import kotlinx.coroutines.launch
 
 @SuppressLint("CustomSplashScreen")
 @AndroidEntryPoint
-class SplashActivity : BaseActivity<ActivitySplashBinding, SplashViewModel>() {
+class SplashActivity : AppCompatActivity() {
 
-    override fun setLayout(inflater: LayoutInflater): ActivitySplashBinding {
-        return ActivitySplashBinding.inflate(inflater)
-    }
+    private lateinit var binding: ActivitySplashBinding
 
-    override fun setViewModel(): SplashViewModel {
-        return ViewModelProvider(this)[SplashViewModel::class.java]
-    }
-
-    override fun setupView() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivitySplashBinding.inflate(layoutInflater)
+        setContentView(binding.root)
     }
 
     override fun onStart() {
         super.onStart()
         if(!hasInternetConnection()){
-            showToast("Internet Connection Required!")
+            Toast.makeText(this,"Internet Connection Required!",Toast.LENGTH_LONG).show()
             lifecycleScope.launch {
                 delay(3000)
                 finish()

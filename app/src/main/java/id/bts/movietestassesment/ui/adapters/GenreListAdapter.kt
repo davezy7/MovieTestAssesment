@@ -1,18 +1,12 @@
 package id.bts.movietestassesment.ui.adapters
 
 import android.annotation.SuppressLint
-import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import id.bts.movietestassesment.R
 import id.bts.movietestassesment.data.dto.GenreResponse
 import id.bts.movietestassesment.databinding.ItemListGenresBinding
-import id.bts.movietestassesment.ui.discoverbygenre.DiscoverByGenreActivity
 import id.bts.movietestassesment.ui.genrelist.GenreListFragmentDirections
 
 class GenreListAdapter(
