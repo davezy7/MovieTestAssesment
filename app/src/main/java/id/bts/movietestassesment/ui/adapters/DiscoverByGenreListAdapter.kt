@@ -4,6 +4,8 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.navigation.findNavController
+import androidx.paging.PagingDataAdapter
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import id.bts.movietestassesment.data.dto.DiscoverByGenreResultResponse
@@ -12,9 +14,29 @@ import id.bts.movietestassesment.ui.discoverbygenre.DiscoverByGenreFragmentDirec
 import id.bts.movietestassesment.utils.Constants
 import java.text.SimpleDateFormat
 
-class DiscoverByGenreListAdapter : RecyclerView.Adapter<DiscoverByGenreListAdapter.DiscoverByGenreListAdapterVH>() {
+class DiscoverByGenreListAdapter :
+    PagingDataAdapter<
+            DiscoverByGenreResultResponse,
+            DiscoverByGenreListAdapter.DiscoverByGenreListAdapterVH>(MovieComparator) {
 
     private val movieList: ArrayList<DiscoverByGenreResultResponse> = arrayListOf()
+
+    object MovieComparator : DiffUtil.ItemCallback<DiscoverByGenreResultResponse>(){
+        override fun areItemsTheSame(
+            oldItem: DiscoverByGenreResultResponse,
+            newItem: DiscoverByGenreResultResponse
+        ): Boolean {
+            return oldItem.id == newItem.id
+        }
+
+        override fun areContentsTheSame(
+            oldItem: DiscoverByGenreResultResponse,
+            newItem: DiscoverByGenreResultResponse
+        ): Boolean {
+            return oldItem == newItem
+        }
+
+    }
 
     class DiscoverByGenreListAdapterVH(val bind: ItemListMoviesBinding) :
         RecyclerView.ViewHolder(bind.root)
@@ -48,19 +70,6 @@ class DiscoverByGenreListAdapter : RecyclerView.Adapter<DiscoverByGenreListAdapt
 
     override fun getItemCount(): Int {
         return movieList.size
-    }
-
-    @SuppressLint("NotifyDataSetChanged")
-    fun setData(data: List<DiscoverByGenreResultResponse>){
-        movieList.clear()
-        movieList.addAll(data)
-        notifyDataSetChanged()
-    }
-
-    @SuppressLint("NotifyDataSetChanged")
-    fun addData(data: List<DiscoverByGenreResultResponse>){
-        movieList.addAll(data)
-        notifyDataSetChanged()
     }
 
     @SuppressLint("SimpleDateFormat")

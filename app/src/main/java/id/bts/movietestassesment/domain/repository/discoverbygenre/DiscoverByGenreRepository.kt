@@ -1,9 +1,12 @@
 package id.bts.movietestassesment.domain.repository.discoverbygenre
 
-import id.bts.movietestassesment.data.dto.DiscoverByGenreResponse
-import retrofit2.Response
+import androidx.paging.PagingData
+import id.bts.movietestassesment.data.dto.DiscoverByGenreResultResponse
+import kotlinx.coroutines.flow.Flow
 
 interface DiscoverByGenreRepository {
 
-    suspend fun getAllMoviesByGenre(genre: Int, page: Int): Response<DiscoverByGenreResponse>
+    suspend fun getAllMoviesByGenre(
+        genre: Int
+    ): Flow<PagingData<DiscoverByGenreResultResponse>>
 }

@@ -2,11 +2,13 @@ package id.bts.movietestassesment.ui.discoverbygenre
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
@@ -14,10 +16,14 @@ import id.bts.movietestassesment.R
 import id.bts.movietestassesment.base.BaseFragment
 import id.bts.movietestassesment.databinding.FragmentDiscoverByGenreBinding
 import id.bts.movietestassesment.ui.adapters.DiscoverByGenreListAdapter
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class DiscoverByGenreFragment : BaseFragment<FragmentDiscoverByGenreBinding, DiscoverByGenreViewModel>() {
 
+    private val TAG = DiscoverByGenreFragment::class.java.simpleName
 
     private lateinit var genreName: String
     private lateinit var discoverByGenreListAdapter: DiscoverByGenreListAdapter
@@ -49,30 +55,17 @@ class DiscoverByGenreFragment : BaseFragment<FragmentDiscoverByGenreBinding, Dis
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             adapter = discoverByGenreListAdapter
             setHasFixedSize(true)
-            addOnScrollListener(object : RecyclerView.OnScrollListener() {
-                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                    super.onScrolled(recyclerView, dx, dy)
-                    if (!recyclerView.canScrollVertically(1) && !isLastItem) {
-                        page++
-                        getAllMoviesByGenre()
-                    }
-                }
-            })
         }
     }
 
     @SuppressLint("NotifyDataSetChanged")
     private fun getAllMoviesByGenre() {
         if (isLastItem) return
-        viewModel.getAllMoviesByGenre(genreId, page).observe(this) { data ->
-
-            binding.tvGenreName.text = genreName
-            if (page > 1) {
-                data.results.let { discoverByGenreListAdapter.addData(it) }
-            } else {
-                data.results.let { discoverByGenreListAdapter.setData(it) }
+        lifecycleScope.launch{
+            viewModel.getAllMoviesByGenre(genreId).collectLatest { pagingData ->
+                discoverByGenreListAdapter.submitData(pagingData)
+                Log.d(TAG, pagingData.toString())
             }
-            isLastItem = page == data.totalPages
         }
     }
 }
